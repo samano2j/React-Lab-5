@@ -49,7 +49,7 @@ function App() {
     if (state.emailPass && state.passwordPass)
       console.log('Sign Up successful!')
 
-  }, [state.emailPass, state.passwordPass])
+  }, [state])
 
   const checkEmail = () => {
     const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
