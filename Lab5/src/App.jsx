@@ -25,8 +25,6 @@ function App() {
   const [state, dispatch] = useReducer(reducer, initialState)
   const [emailValue, setEmailValue] = useState('')
   const [passwordValue, setPasswordValue] = useState('')
-  let emailPass = false
-  let passwordPass = false
 
   const clearButton = (e) => {
     setEmailValue('')
@@ -44,22 +42,24 @@ function App() {
   const signupButton = (e) => {
     checkEmail()
     checkPassWord()
-
-    if (emailPass && passwordPass)
-      console.log('Sign Up successful!')
   }
+
+  useEffect(() => {
+    
+    if (state.emailPass && state.passwordPass)
+      console.log('Sign Up successful!')
+
+  }, [state.emailPass, state.passwordPass])
 
   const checkEmail = () => {
     const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
 
     if (!emailValue.match(emailRegex)) {
       dispatch({ type: SET_EMAIL_ERROR, payload: {emailError:'Invalid email address'} })
-      emailPass = false
       return
     }
 
     dispatch({ type: SET_EMAIL_PASS })
-    emailPass = true
   } 
 
   const checkPassWord = () => {
@@ -71,36 +71,30 @@ function App() {
 
     if (!passwordValue.match(lowerCaseLetters)) {
       dispatch({ type: SET_PASSWORD_ERROR, payload: {passwordError:'Password requires lowercase letter(s)' } })
-      passwordPass = false
       return
     }
 
     if (!passwordValue.match(upperCaseLetters)) {
       dispatch({ type: SET_PASSWORD_ERROR, payload: {passwordError:'Password requires uppercase letter(s)' } })
-      passwordPass = false
       return
     }
 
     if (!passwordValue.match(numbers)) {
       dispatch({ type: SET_PASSWORD_ERROR, payload: {passwordError:'Password requires number(s)' } })
-      passwordPass = false
       return
     }
 
     if (!passwordValue.match(specialCharacters)) {
       dispatch({ type: SET_PASSWORD_ERROR, payload: {passwordError:'Password requires special character(s)' } })
-      passwordPass = false
       return
     }
 
     if (passwordValue.length < minlength) {
       dispatch({ type: SET_PASSWORD_ERROR, payload: {passwordError:'Password requires minimum length of 8 characters' } })
-      passwordPass = false
       return
     }
 
     dispatch({ type: SET_PASSWORD_PASS })
-    passwordPass = true
   }
 
   return (
